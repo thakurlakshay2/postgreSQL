@@ -62,3 +62,41 @@
 
 
 
+
+-------------------------------EDITING THE TABLE NOW------------------------------
+-- CREATE TABLE customers (
+-- 	customer_id SERIAL  PRIMARY KEY,
+-- 	first_name VARCHAR(50),
+-- 	last_name VARCHAR(50),
+-- 	email VARCHAR(150),
+-- 	age INT
+-- )
+
+SELECT * FROM customers;
+
+--# Insert 1 record into a table
+-- INSERT INTO customers (first_name, last_name, email,age)
+-- VALUES ('lakshay','thakur','a@b.com',40);
+
+--# Insert multiple records into a table
+-- INSERT INTO customers (first_name, last_name, email,age)
+-- VALUES 
+-- ('lucky','chaba','mmm@b.com',20), 
+-- ('ut','verma','kkk@b.com',33); -- Inportatn the last one has 'semicolor' while rest have 'comma'
+
+--# How to add data which has quotes
+-- INSERT INTO customers (first_name)
+-- VALUES('lakshay''O thakur');
+
+--# USE 'RETURNING' to get ubfi on returns rows
+
+--## returning all  rows
+-- INSERT INTO customers (first_name)
+-- VALUES('JAMEY') RETURNING *;
+
+--## retuning a single column value
+-- INSERT INTO customers (first_name)
+-- VALUES('JAMEY') RETURNING customer_id;
+
+--------------------------------------Updating a table-------------------------------
+
