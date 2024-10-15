@@ -98,5 +98,135 @@ SELECT * FROM customers;
 -- INSERT INTO customers (first_name)
 -- VALUES('JAMEY') RETURNING customer_id;
 
---------------------------------------Updating a table-------------------------------
+--------------------------------------# Updating a table (includes delete)-------------------------------
+SELECT * FROM customers;
+
+--# Updating One record at a time
+-- UPDATE customers
+-- SET 
+-- email = 'aUpdated@b.com'
+-- last_name = 'updated'
+-- WHERE customer_id =1
+
+--## Updating and returning updated value
+
+-- UPDATE customers
+-- SET 
+-- last_name = 'updated'
+-- WHERE customer_id =3
+-- RETURNING *
+
+--## Updating All Records in a table
+-- UPDATE customers
+-- SET 
+-- is_enable = true
+
+
+-- # Deleting a record
+-- DELETE FROM customers
+-- WHERE customer_id=5
+
+
+--------------------------------------# UPSERT (Update + insert) a table-------------------------------
+SELECT * FROM t_tags;
+-- CREATE TABLE t_tags( 
+-- 	id SERIAL PRIMARY KEY,
+-- 	tag text UNIQUE,
+-- 	update_date TIMESTAMP DEFAULT NOW()
+-- )
+
+-- Insert data
+-- INSERT INTO t_tags (tag) values
+-- ('PEN'),
+-- ('PENCIL');
+
+-- Let's insert a record m on conflict do nothing
+-- INSERT INTO t_tags (tag) values
+-- ('PEN')
+-- ON CONFLICT (tag)
+-- DO
+-- 	NOTHING;
+
+
+-- Let's insert a record m on conflict set new values
+-- INSERT INTO t_tags (tag) values
+-- ('PEN')
+-- ON CONFLICT (tag)
+-- DO
+-- 	UPDATE SET
+-- 	tag = EXCLUDED.tag,
+-- 	update_date=NOW();
+
+
+--------------------------_Select-----------------
+SELECT * FROM movies
+
+--# Select Columns from table
+SELECT movie_id, movie_name FROM movies
+
+--# Adding Alias to column. names
+SELECT movie_name AS movieName FROM movies --lower cased
+SELECT movie_name AS "movieName" FROM movies -- Camel casing is there eve add space here
+
+SELECT movie_id AS "Movie ID", movie_name AS "Movie Name" FROM movies
+
+SELECT movie_id  "Movie ID", movie_name  "Movie Name" FROM movies --AS is optional
+
+--# Assign Column Alias for expressions
+SELECT first_name || last_name FROM actors 
+SELECT first_name || ' ' || last_name   FROM actors  --Adding Space between names
+
+
+SELECT first_name || ' ' || last_name  AS "Movie Name" FROM actors  --Adding Alias
+
+
+----------------------- Order By -------------------
+
+--# Sort based on single column
+
+SELECT * FROM movies ORDER BY release_date DESC
+
+--# multiple columns
+SELECT * FROM movies ORDER BY release_date DESC, movie_name ASC
+
+--# Using alias
+SELECT movie_name AS "MOVIES NAME" FROM movies ORDER BY release_date DESC, movie_name ASC
+
+--# Get length 
+SELECT first_name, LENGTH(first_name) FROM actors
+
+--# Sort by length
+SELECT first_name, LENGTH(first_name) AS len FROM actors ORDER BY len
+
+
+--# Sort all recorsds using column number 
+SELECT * FROM actors ORDER BY first_name ASC, date_of_birth DESC
+
+SELECT first_name, date_of_birth FROM actors ORDER BY 1 ASC, 2 DESC
+
+
+--# Order by NULL
+SELECT * FROM actors ORDER BY first_name ASC -- by default null is last for the DESC option
+SELECT * FROM actors ORDER BY first_name NULLS LAST -- by default null is last
+--Both above have same result
+SELECT DISTINCT date_of_birth FROM actors  NULLS FIRST
+ -- Null first
+
+SELECT DISTINCT date_of_birth FROM actors ORDER BY 1 NULLS FIRST
+ --  Decending and null FISRT
+
+
+--# Select DISCTINCT VALUES
+
+SELECT DISTINCT date_of_birth FROM actors ORDER BY 1 DESC NULLS FIRST
+
+SELECT DISTINCT director_id FROM directors ORDER BY 1
+
+SELECT DISTINCT * FROM directors ORDER BY 1. -- all unique records in movies table
+
+
+
+
+
+
 
