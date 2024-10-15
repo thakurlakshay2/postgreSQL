@@ -1,4 +1,4 @@
-[Link](https://namastedev.com/learn/namaste-frontend-system-design/rest-apis) - Video
+[Link](https://www.udemy.com/course/postgresqlmasterclass) - Video
 
 # PostgreSQL
 
