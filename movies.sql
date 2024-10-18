@@ -225,8 +225,155 @@ SELECT DISTINCT director_id FROM directors ORDER BY 1
 SELECT DISTINCT * FROM directors ORDER BY 1. -- all unique records in movies table
 
 
+-------------------------------_Filtering Data ------------------------------------
+--Three Types of Operator : comparison  , logical and arithmetic
+
+-----------Using Logical Operator
+
+--# Adding condition using comparison operator
+SELECT * FROM movies WHERE movie_language = 'English';
+
+--# Adding multiple conditions use AND
+SELECT * FROM movies 
+WHERE 
+	movie_language = 'English'
+	AND age_certification='18';
+
+--# using OR
+SELECT * FROM movies 
+WHERE 
+	movie_language = 'English'
+	OR movie_language='Chinese';
+
+ 
+--# combining AND , OR
+SELECT * FROM movies 
+WHERE 
+	(movie_language = 'English'
+	OR movie_language='Chinese') 
+	AND age_Certification='12'
+ORDER BY movie_language;
+
+--# Using WHERE before from
+-- SYNTAX ERROR , cannot do this
+SELECT  * WHERE 
+	(movie_language = 'English'
+	OR movie_language='Chinese') 
+	AND age_Certification='12' FROM movies
+
+--# using WHERE after ORDER BY
+--SYntax error
+SELECT * FROM movies ORDER BY movie_language WHERE 
+	(movie_language = 'English'
+	OR movie_language='Chinese') 
+	AND age_Certification='12';
+
+--# using column aliases with WHERE
+--No you cannot use alias for column name to run WHERE clause
+SELECT first_name , last_name AS surname
+FROM actors
+WHERE surname= 'Allen';
+
+
+--# order of execution  FROM | WHERE | SELECT | ORDER BY
+SELECT * 
+FROM movies 
+WHERE  movie_language = 'English'
+ORDER BY age_Certification
+
+-------- Using Comparison Operator
+
+--# select  from a range  > < >= <= = , <>
+
+SELECT * 
+FROM movies 
+WHERE  movie_length<100
+ORDER BY movie_length ASC;
+
+
+--# Can this work on dates?? assume we need movies after 2000
+SELECT * FROM movies
+ORDER BY release_date ASC;
+
+SELECT * FROM movies
+WHERE release_date > '1999-12-31'
+ORDER BY release_date ASC;
+
+
+--# we can also get movies greater than English
+SELECT * FROM movies
+WHERE movie_language > 'English'
+
+--# Exclusion
+SELECT * FROM movies
+WHERE movie_language <> 'English'
+
+
+--------------use LIMIT and OFFSET
+
+--# getting top 5 movies
+SELECT * FROM movies 
+ORDER BY movie_name LIMIT 10;
+
+--# getting top 5 oldest american directors
+SELECT * FROM directors;
+SELECT * FROM directors WHERE nationality='American' ORDER BY date_of_birth LIMIT 5;
+
+--# Getting to 10 youngest female actors
+SELECT * FROM actors WHERE gender='F' ORDER BY date_of_birth DESC LIMIT 10;
+
+--# Getting top 10 most domestic profictable movie;
+SELECT * FROM movies_revenues ORDER BY revenues_domestic DESC NULLS LAST LIMIT 10;
 
 
 
+------Using OFFSET
+--# Get 5 films from 4th one order by movie_id;
+
+SELECT * FROM movies ORDER BY movie_id LIMIT 5 OFFSET 4;
+
+--# List all top 5 movies after top 5 highest domestic profict movies
+SELECT * FROM movies_revenues ORDER BY revenues_domestic DESC NULLS LAST LIMIT 10 OFFSET 5;
 
 
+----------------- FETCH------
+
+--# Get first row of movie table 
+SELECT * FROM movies
+FETCH FIRST 5 ROW ONLY
+
+--# Get top 5 movies by movies length
+SELECT * FROM movies
+ORDER BY movie_length DESC 
+FETCH FIRST 5 ROW ONLY
+
+--# Get top 5 oldest americal directors
+
+SELECT * FROM directors 
+WHERE nationality='American' 
+ORDER BY date_of_birth 
+FETCH FIRST 5 ROW ONLY;
+
+--# Getting to 10 youngest female actors
+SELECT * FROM actors WHERE gender='F' 
+ORDER BY date_of_birth DESC
+FETCH FIRST 10 ROW ONLY;
+
+--# List all top 5 movies after top 5 highest domestic profict movies
+SELECT * FROM movies_revenues ORDER BY revenues_domestic DESC NULLS LAST FETCH FIRST 5 ROW ONLY OFFSET 5;
+
+
+------------------ IN , NOT IN
+
+--# get moives in english chinese , japanese 
+SELECT * FROM movies 
+WHERE movie_language IN ('English','Chinese','Japanese')
+ORDER BY 
+
+--# all movie wiere age certificate is 13 and pg
+
+SELECT * FROM movies
+WHERE age_certification IN ('12','PG');
+
+--# all movies where director is. not 13 or 10
+SELECT * FROM movies WHERE director_id NOT IN ('13','10')
