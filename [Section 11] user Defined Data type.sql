@@ -61,3 +61,22 @@ CREATE DOMAIN proper_email VARCHAR(150)
 CHECK (
 	VALUE ~*'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'
 );
+
+
+--ENUM type
+CREATE DOMAIN valid_color VARCHAR(150)
+CHECK (VALUE IN ('red','green', 'blue'))
+
+CREATE TABLE colors (
+color valid_color
+)
+
+INSERT INTO colors (color) VALUES ('orange');
+
+--Get all domain in a schema
+
+
+-- SELECT typename
+-- FROM pg_catelog.pg_type
+-- JOIN pg_catelog.namespace
+-- ON pg_namespace.oid = pg.type.typenamespace
